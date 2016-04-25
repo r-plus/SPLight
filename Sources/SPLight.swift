@@ -82,7 +82,7 @@ public class SPLight: UIView {
         }()
         bezierPathRect.appendPath(spotlightPath)
         bezierPathRect.usesEvenOddFillRule = true
-        UIColor.grayColor().setFill()
+        UIColor.blackColor().setFill()
         bezierPathRect.fill()
         
         // edge blur
