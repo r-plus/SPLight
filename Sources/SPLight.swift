@@ -18,11 +18,11 @@ public class SPLight: UIView {
     public private(set) static var light: SPLight?
     
     // MARK: Class func
-    public class func showInView(view: UIView, spotlightRect: CGRect, style: SpotStyle = .Rect, duration: NSTimeInterval = 0.2) {
+    public class func showInView(view: UIView, spotlightRect: CGRect, style: SpotStyle = .Rect, duration: NSTimeInterval = 0.2, alpha: CGFloat = 0.5) {
         guard light == nil else {
             return
         }
-        light = SPLight.init(frame: view.bounds, spotlightRect: spotlightRect, style: style, duration: duration)
+        light = SPLight.init(frame: view.bounds, spotlightRect: spotlightRect, style: style, duration: duration, alpha: alpha)
         light!.alpha = 0.0
         light!.duration = duration
         view.addSubview(light!)
@@ -30,7 +30,7 @@ public class SPLight: UIView {
                                    delay: 0,
                                    options: [.CurveEaseOut, .BeginFromCurrentState],
                                    animations: {
-                                    light!.alpha = 0.5
+                                    light!.alpha = light!.dimAlpha
             }, completion: nil)
     }
     
@@ -53,12 +53,14 @@ public class SPLight: UIView {
     public private(set) var spotlightRect: CGRect
     public private(set) var style: SpotStyle
     public private(set) var duration: NSTimeInterval
+    public private(set) var dimAlpha: CGFloat
     
     // MARK: Instance func
-    public init(frame: CGRect, spotlightRect: CGRect, style: SpotStyle, duration: NSTimeInterval) {
+    public init(frame: CGRect, spotlightRect: CGRect, style: SpotStyle, duration: NSTimeInterval, alpha: CGFloat) {
         self.spotlightRect = spotlightRect
         self.style = style
         self.duration = duration
+        self.dimAlpha = alpha
         super.init(frame: frame)
         backgroundColor = UIColor.clearColor()
         autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
