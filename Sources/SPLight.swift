@@ -54,6 +54,7 @@ public class SPLight: UIView {
     public private(set) var style: SpotStyle
     public private(set) var duration: NSTimeInterval
     public private(set) var dimAlpha: CGFloat
+    private let offset: CGFloat = 20.0
     
     // MARK: Instance func
     public init(frame: CGRect, spotlightRect: CGRect, style: SpotStyle, duration: NSTimeInterval, alpha: CGFloat) {
@@ -61,8 +62,8 @@ public class SPLight: UIView {
         self.style = style
         self.duration = duration
         self.dimAlpha = alpha
-        super.init(frame: frame)
-        backgroundColor = UIColor.clearColor()
+        super.init(frame: CGRectInset(frame, -offset, -offset))
+        backgroundColor = .clearColor()
         autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
         contentMode = .Redraw
         userInteractionEnabled = false
@@ -77,9 +78,10 @@ public class SPLight: UIView {
         let spotlightPath: UIBezierPath = {
             switch self.style {
             case .Rect:
-                return UIBezierPath.init(rect: CGRectInset(spotlightRect, -5.0, -5.0))
+                let r = CGRectInset(spotlightRect, -5.0, -5.0)
+                return UIBezierPath.init(rect: r.offsetBy(dx: offset, dy: offset))
             case .Oval:
-                return UIBezierPath.init(ovalInRect: spotlightRect)
+                return UIBezierPath.init(ovalInRect: spotlightRect.offsetBy(dx: offset, dy: offset))
             }
         }()
         bezierPathRect.appendPath(spotlightPath)
